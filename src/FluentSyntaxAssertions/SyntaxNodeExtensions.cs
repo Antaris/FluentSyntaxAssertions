@@ -73,5 +73,32 @@
 
             return node;
         }
+
+        /// <summary>
+        /// Attempts an assertion and sets the a flag. This method catches any instance of <see cref="SyntaxAssertionException"/>.
+        /// </summary>
+        /// <typeparam name="T">The syntax node type.</typeparam>
+        /// <param name="node">The syntax node instance.</param>
+        /// <param name="assert">The assert delegate to try.</param>
+        /// <param name="success">[Output] The success state.</param>
+        /// <returns>The syntax node.</returns>
+        public static T Try<T>(this T node, Action<T> assert, out bool success)
+        {
+            Ensure.ArgumentNotNull(node, nameof(node));
+            Ensure.ArgumentNotNull(assert, nameof(assert));
+
+            try
+            {
+                assert(node);
+
+                success = true;
+            }
+            catch (SyntaxAssertionException ex)
+            {
+                success = false;
+            }
+
+            return node;
+        }
     }
 }

@@ -64,6 +64,23 @@
         }
 
         /// <summary>
+        /// Asserts that the given namespace declarataion has the required using directive.
+        /// </summary>
+        /// <param name="match">The syntax match</param>
+        /// <param name="name">The using directive name.</param>
+        /// <param name="assert">[Optional] The assert delegate.</param>
+        /// <param name="message">[Optional] The failure message.</param>
+        /// <returns>The namespace declaration syntax.</returns>
+        public static Match<NamespaceDeclarationSyntax> HasUsingDirective(this Match<NamespaceDeclarationSyntax> match, string name, Action<Match<UsingDirectiveSyntax>> assert = null, string message = null)
+        {
+            Ensure.ArgumentNotNull(match, nameof(match));
+
+            HasUsingDirective(match.Node, name, assert, message);
+
+            return match;
+        }
+
+        /// <summary>
         /// Gets the matching set of using directives.
         /// </summary>
         /// <param name="list">The syntax list.</param>

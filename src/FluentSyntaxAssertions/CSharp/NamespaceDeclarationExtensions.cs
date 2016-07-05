@@ -7,7 +7,7 @@
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     /// <summary>
-    /// Provides extensions for assering over namespace declarations.
+    /// Provides extensions for asserting over namespace declarations.
     /// </summary>
     public static class NamespaceDeclarationExtensions
     {
@@ -61,6 +61,23 @@
             assert?.Invoke(matches[0]);
 
             return syntax;
+        }
+
+        /// <summary>
+        /// Asserts that the selected namespace declaration contains a nested namespace declaration.
+        /// </summary>
+        /// <param name="match">The namespace declaration syntax match.</param>
+        /// <param name="name">The nested namespace name.</param>
+        /// <param name="assert">[Optional] The assert delegate.</param>
+        /// <param name="message">[Optional] The failure message.</param>
+        /// <returns>The namespace declaration syntax.</returns>
+        public static Match<NamespaceDeclarationSyntax> HasNamespaceDeclaration(this Match<NamespaceDeclarationSyntax> match, string name, Action<Match<NamespaceDeclarationSyntax>> assert = null, string message = null)
+        {
+            Ensure.ArgumentNotNull(match, nameof(match));
+
+            HasNamespaceDeclaration(match.Node, name, assert, message);
+
+            return match;
         }
 
         /// <summary>
